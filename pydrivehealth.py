@@ -8,7 +8,6 @@ def get_smart_attribute(drive, attribute):
   for driveattribute in drive.attributes:
     if not driveattribute:
       continue
-
     if driveattribute.name == attribute:
       return float(driveattribute.raw)
 
@@ -19,7 +18,10 @@ def get_drive_age(drive):
 
 
 def get_drive_temperature(drive):
-  return get_smart_attribute(drive, 'Temperature_Celsius')
+  temp = get_smart_attribute(drive, 'Temperature_Celsius')
+  if temp:
+    temp = str(temp) + "C"
+  return temp
 
 
 def get_drive_reallocated_sectors(drive):
