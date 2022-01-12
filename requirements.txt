@@ -1,2 +1,1 @@
-pySMART==0.3
 tabulate==0.7.7

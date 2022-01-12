@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import print_function
 import pySMART
 import tabulate
 import os
 import sys
 import pwd
+import re
 import argparse
 
 def get_smart_attribute(drive, attribute):
@@ -12,12 +13,15 @@ def get_smart_attribute(drive, attribute):
     if not driveattribute:
       continue
     if driveattribute.name == attribute:
-      return float(driveattribute.raw)
+      return driveattribute.raw
 
 
 def get_drive_age(drive):
-  hours = get_smart_attribute(drive, 'Power_On_Hours')
-  return str('%8.2f' % (hours / 24 / 365)) + ' years'
+  poweronhours = get_smart_attribute(drive, 'Power_On_Hours')
+  hours = re.split('h', str(poweronhours), 1)[0]
+  if hours == "None":
+    return
+  return str('%8.2f' % (int(hours) / 24 / 365)) + ' years'
 
 
 def get_drive_temperature(drive):
